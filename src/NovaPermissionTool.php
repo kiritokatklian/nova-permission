@@ -31,7 +31,18 @@ class NovaPermissionTool extends Tool
         Gate::policy(config('permission.models.permission'), $this->permissionPolicy);
         Gate::policy(config('permission.models.role'), $this->rolePolicy);
     }
-
+    
+    /**
+     * Build the menu that renders the navigation links for the tool.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function menu(Request $request)
+    {
+        return $this;
+    }
+    
     public function roleResource(string $roleResource): NovaPermissionTool
     {
         $this->roleResource = $roleResource;
@@ -57,12 +68,6 @@ class NovaPermissionTool extends Tool
     {
         $this->permissionPolicy = $permissionPolicy;
 
-        return $this;
-    }
-    
-    // This is an abstract method in nova Tool class, so we MUST implement it.
-    public function menu(Request $request)
-    {
         return $this;
     }
 }

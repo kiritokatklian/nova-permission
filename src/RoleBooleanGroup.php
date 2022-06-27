@@ -26,9 +26,7 @@ class RoleBooleanGroup extends BooleanGroup
 
         $roleClass = app(PermissionRegistrar::class)->getRoleClass();
 
-        $options = $roleClass::all()->filter(function ($role) {
-            return Auth::user()->can('view', $role);
-        })->pluck($labelAttribute ?? 'name', 'name');
+        $options = $roleClass::get()->pluck($labelAttribute ?? 'name', 'name')->toArray();
 
         $this->options($options);
     }

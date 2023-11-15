@@ -42,7 +42,7 @@ class RoleSelect extends Select
             return;
         }
 
-        $model->roles()->detach();
+        $model->syncRoles([]);
 
         if (! is_null($request[$requestAttribute])) {
             $roleClass = app(PermissionRegistrar::class)->getRoleClass();

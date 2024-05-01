@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.4|^8.0|^8.1|^8.2|^8.3",
         "spatie/laravel-permission": "^3.0|^4.0|^5.0|^6.0",
-        "laravel/nova": "^4.0"
+        "laravel/nova": "*"
     },
     "autoload": {
         "psr-4": {
@@ -28,8 +28,15 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": {
+        "nova": {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    }
 }

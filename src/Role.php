@@ -49,6 +49,21 @@ class Role extends Resource
         'permissions',
     ];
 
+    /**
+     * Create a new resource instance.
+     *
+     * @param  TModel|null  $resource
+     * @return void
+     */
+    public function __construct($resource = null)
+    {
+        static::$model = static::getModel();
+        $this->resource = $resource;
+    }
+
+    /**
+     * The model the resource corresponds to.
+     */
     public static function getModel()
     {
         $object = app(PermissionRegistrar::class)->getRoleClass();
@@ -167,11 +182,11 @@ class Role extends Resource
     {
         return [];
     }
-    
+
     /**
-     * 
+     *
      * Allow the permissions to replicate with the Role
-     * 
+     *
      * @return Role|HigherOrderTapProxy|mixed
      */
     public function replicate()

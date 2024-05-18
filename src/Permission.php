@@ -63,8 +63,10 @@ class Permission extends Resource
 
     /**
      * The model the resource corresponds to.
+     *
+     * @return string
      */
-    public static function getModel()
+    public static function getModel(): string
     {
         return app(PermissionRegistrar::class)->getPermissionClass();
     }

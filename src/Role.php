@@ -63,12 +63,20 @@ class Role extends Resource
 
     /**
      * The model the resource corresponds to.
+     *
+     * @return string
      */
-    public static function getModel()
+    public static function getModel(): string
     {
-        $object = app(PermissionRegistrar::class)->getRoleClass();
+        return app(PermissionRegistrar::class)->getRoleClass();
+    }
 
-        return \is_string($object) ? app($object) : $object;
+    /**
+     * An object instance of the model the resource corresponds to.
+     */
+    public static function getObject()
+    {
+        return app(static::getModel());
     }
 
     /**

@@ -68,7 +68,9 @@ class Role extends Resource
      */
     public static function getModel(): string
     {
-        return app(PermissionRegistrar::class)->getRoleClass();
+        $roleClass = app(PermissionRegistrar::class)->getRoleClass();
+
+        return is_string($roleClass) ? $roleClass : get_class($roleClass);
     }
 
     /**

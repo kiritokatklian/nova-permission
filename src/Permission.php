@@ -68,7 +68,9 @@ class Permission extends Resource
      */
     public static function getModel(): string
     {
-        return app(PermissionRegistrar::class)->getPermissionClass();
+        $permissionClass = app(PermissionRegistrar::class)->getPermissionClass();
+
+        return is_string($permissionClass) ? $permissionClass : get_class($permissionClass);
     }
 
     /**

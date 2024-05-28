@@ -33,7 +33,7 @@ class RoleBooleanGroup extends BooleanGroup
                 return Auth::user()->can('view', $role);
             });
         }
-        $options = $options->pluck($labelAttribute ?? 'name', 'name')
+        $options = $options->pluck($labelAttribute ?? 'name', 'name');
 
         $this->options($options);
     }

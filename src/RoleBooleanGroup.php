@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasPermissions;
 
 class RoleBooleanGroup extends BooleanGroup
 {
-    public function __construct($name, $attribute = null, callable $resolveCallback = null, $labelAttribute = null)
+    public function __construct($name, $attribute = null, callable $resolveCallback = null, $labelAttribute = null, $checkUserViewPermission=true)
     {
         parent::__construct(
             $name,
@@ -26,9 +26,14 @@ class RoleBooleanGroup extends BooleanGroup
 
         $roleClass = app(PermissionRegistrar::class)->getRoleClass();
 
-        $options = $roleClass::all()->filter(function ($role) {
-            return Auth::user()->can('view', $role);
-        })->pluck($labelAttribute ?? 'name', 'name');
+        $options = $roleClass::all();
+        // only filter out permissions if requested (time consuming operation)
+        if ($checkUserViewPermission) {
+            $options = $options->filter(function ($role) {
+                return Auth::user()->can('view', $role);
+            });
+        }
+        $options = $options->pluck($labelAttribute ?? 'name', 'name')
 
         $this->options($options);
     }

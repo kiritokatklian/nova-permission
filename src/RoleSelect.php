@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\Permission\PermissionRegistrar;
-use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class RoleSelect extends Select
 {
@@ -32,19 +32,25 @@ class RoleSelect extends Select
 
     /**
      * @param NovaRequest $request
-     * @param string $requestAttribute
-     * @param HasPermissions $model
-     * @param string $attribute
+     * @param string      $requestAttribute
+     * @param object      $model
+     * @param string      $attribute
+     *
+     * @return void
      */
-    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
+    protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
     {
-        if (! $request->exists($requestAttribute)) {
+        if (!in_array(HasRoles::class, class_uses_recursive($model))) {
+            throw new \InvalidArgumentException('The $model parameter of type ' . $model::class . ' must implement ' . HasRoles::class);
+        }
+
+        if (!$request->exists($requestAttribute)) {
             return;
         }
 
         $model->syncRoles([]);
 
-        if (! is_null($request[$requestAttribute])) {
+        if (!is_null($request[$requestAttribute])) {
             $roleClass = app(PermissionRegistrar::class)->getRoleClass();
             $role = $roleClass::where('name', $request[$requestAttribute])->first();
             $model->assignRole($role);

@@ -17,6 +17,7 @@ With the release of Nova 4.0, there are now two separate versions of Nova Permis
 | :---: | :---: |
 | 3.0 | 3.0 - 3.2.2 |
 | 4.0 | 4.0 |
+| 5.0 | 5.0 |
 
 ## Installation
 

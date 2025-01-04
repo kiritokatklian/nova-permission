@@ -35,13 +35,19 @@ class PermissionBooleanGroup extends BooleanGroup
 
     /**
      * @param NovaRequest $request
-     * @param string $requestAttribute
-     * @param HasPermissions $model
-     * @param string $attribute
+     * @param string      $requestAttribute
+     * @param object      $model
+     * @param string      $attribute
+     *
+     * @return void
      */
-    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
+    protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
     {
-        if (! $request->exists($requestAttribute)) {
+        if (!in_array(HasPermissions::class, class_uses_recursive($model))) {
+            throw new \InvalidArgumentException('The $model parameter of type ' . $model::class . ' must implement ' . HasPermissions::class);
+        }
+
+        if (!$request->exists($requestAttribute)) {
             return;
         }
 

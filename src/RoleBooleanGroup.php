@@ -8,7 +8,7 @@ use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\Permission\Models\Role as RoleModel;
 use Spatie\Permission\PermissionRegistrar;
-use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class RoleBooleanGroup extends BooleanGroup
 {
@@ -35,13 +35,19 @@ class RoleBooleanGroup extends BooleanGroup
 
     /**
      * @param NovaRequest $request
-     * @param string $requestAttribute
-     * @param HasPermissions $model
-     * @param string $attribute
+     * @param string      $requestAttribute
+     * @param object      $model
+     * @param string      $attribute
+     *
+     * @return void
      */
-    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
+    protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
     {
-        if (! $request->exists($requestAttribute)) {
+        if (!in_array(HasRoles::class, class_uses_recursive($model))) {
+            throw new \InvalidArgumentException('The $model parameter of type ' . $model::class . ' must implement ' . HasRoles::class);
+        }
+
+        if (!$request->exists($requestAttribute)) {
             return;
         }
 

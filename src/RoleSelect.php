@@ -8,10 +8,21 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
+use Stringable;
 
 class RoleSelect extends Select
 {
-    public function __construct($name, $attribute = null, callable $resolveCallback = null, $labelAttribute = null)
+    /**
+     * Create a new field.
+     *
+     * @param Stringable|string                              $name
+     * @param string|callable|object|null                    $attribute
+     * @param (callable(mixed, mixed, ?string):(mixed))|null $resolveCallback
+     * @param string|null                                    $labelAttribute
+     *
+     * @return void
+     */
+    public function __construct($name, mixed $attribute = null, ?callable $resolveCallback = null, ?string $labelAttribute = null)
     {
         parent::__construct(
             $name,

@@ -34,11 +34,15 @@ class RoleSelect extends Select
 
         $roleClass = app(PermissionRegistrar::class)->getRoleClass();
 
-        $options = $roleClass::all()->filter(function ($role) {
-            return Auth::user()->can('view', $role);
-        })->pluck($labelAttribute ?? 'name', 'name');
+        if (!app()->has('cached_nova_roles')) {
+            $roles = $roleClass::all()->filter(function ($role) {
+                return Auth::user()->can('view', $role);
+            })->pluck($labelAttribute ?? 'name', 'name');
 
-        $this->options($options);
+            app()->instance('cached_nova_roles', $roles);
+        }
+
+        $this->options(app('cached_nova_roles'));
     }
 
     /**

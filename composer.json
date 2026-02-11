@@ -8,8 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "spatie/laravel-permission": "^5.0|^6.0",
+        "php": ">=8.1",
+        "spatie/laravel-permission": "^5.0|^6.0|^7.0",
         "laravel/nova": "^5.0"
     },
     "autoload": {
